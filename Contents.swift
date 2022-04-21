@@ -9,6 +9,8 @@
  ###        - add different gravity for each planet.
  
  */
+//MARK: - Only have two planets (otherwise will be dull and repetitive); at end, return to earth and have astronaut give stones to boss
+//MARK: add dialogue before start, finding gems, returning to earth
 
 loadPrgm(true)
 start
