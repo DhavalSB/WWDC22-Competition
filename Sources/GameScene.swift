@@ -12,7 +12,11 @@ struct PhysicsCategory {
 
 class GameScene: SKScene {
     
+    var bd0b: SKNode!
+    var ad0b: SKNode!
+    
     var gameOver: Bool = false
+    var storyOver: Bool = false
    
     var ship: SKSpriteNode!
     var rocket: SKSpriteNode!
@@ -46,14 +50,42 @@ class GameScene: SKScene {
     var ast21: SKSpriteNode!
     var ast22: SKSpriteNode!
     
+//    Scene 3
+    var ast23: SKSpriteNode!
+    var ast24: SKSpriteNode!
+    var ast25: SKSpriteNode!
+    var ast26: SKSpriteNode!
+    var ast27: SKSpriteNode!
+    var ast28: SKSpriteNode!
+    var ast29: SKSpriteNode!
+    var ast30: SKSpriteNode!
+    var ast31: SKSpriteNode!
+    var ast32: SKSpriteNode!
+    var ast33: SKSpriteNode!
+    var ast34: SKSpriteNode!
+    var ast35: SKSpriteNode!
+    var ast36: SKSpriteNode!
+    
+    
     var mars: SKSpriteNode!
     var marsBg: SKSpriteNode!
+    
+    var phobos: SKSpriteNode!
+    var phobosBg: SKSpriteNode!
+    
+    var earth : SKSpriteNode!
+    var office: SKSpriteNode!
+    var bd1b  : SKNode!
+    var ad1b  : SKNode!
  
     
-    var startInfo: SKNode!
     var bg: SKSpriteNode!
     var bg2: SKSpriteNode!
+    var bg3: SKSpriteNode!
+    
+    var startInfo: SKNode!
     var endScreen: SKNode!
+    var thanksScreen: SKNode!
     
     var cam: SKCameraNode!
     
@@ -64,10 +96,9 @@ class GameScene: SKScene {
         physicsWorld.gravity = .zero
         physicsWorld.contactDelegate = self
        
-        astronaut = childNode(withName: "//Astronaut") as? SKSpriteNode
-        astronaut.physicsBody = SKPhysicsBody(rectangleOf: astronaut.size)
-        astronaut.physicsBody?.isDynamic = true
-        astronaut.physicsBody?.collisionBitMask = PhysicsCategory.none
+        bg = childNode(withName: "//SP1") as? SKSpriteNode
+        
+        station1 = childNode(withName: "//Space Station") as? SKSpriteNode
         
         ship = childNode(withName: "//Space Ship") as? SKSpriteNode
         //initializes collision physics
@@ -77,11 +108,12 @@ class GameScene: SKScene {
         ship.physicsBody?.contactTestBitMask = PhysicsCategory.obstacle
         ship.physicsBody?.collisionBitMask = PhysicsCategory.none
         
-        rocket = childNode(withName: "//Rocket") as? SKSpriteNode
         
-        station1 = childNode(withName: "//Space Station") as? SKSpriteNode
 
-//        Scene 1
+        bd0b = childNode(withName: "//BD0B")
+        ad0b = childNode(withName: "//AD0B")
+        
+//MARK: -        Scene 1
         
         ast1 = childNode(withName: "//Ast1") as? SKSpriteNode
         addAstPhysics(astVar: &ast1)
@@ -107,8 +139,21 @@ class GameScene: SKScene {
         ast8 = childNode(withName: "//Ast8") as? SKSpriteNode
         addAstPhysics(astVar: &ast8)
         
-//        Scene 2
+        mars = childNode(withName: "//Mars") as? SKSpriteNode
+        marsBg = childNode(withName: "//Mars Bg 1") as? SKSpriteNode
+       
+        astronaut = childNode(withName: "//Astronaut") as? SKSpriteNode
+        astronaut.physicsBody = SKPhysicsBody(rectangleOf: astronaut.size)
+        astronaut.physicsBody?.isDynamic = true
+        astronaut.physicsBody?.collisionBitMask = PhysicsCategory.none
+        
+        
+        rocket = childNode(withName: "//Rocket") as? SKSpriteNode
+        
+//MARK: -        Scene 2
   
+        bg2 = childNode(withName: "//SP2") as? SKSpriteNode
+        
         ast9 = childNode(withName: "//Ast9") as? SKSpriteNode
         addAstPhysics(astVar: &ast9)
         
@@ -151,13 +196,64 @@ class GameScene: SKScene {
         ast22 = childNode(withName: "//Ast22") as? SKSpriteNode
             addAstPhysics(astVar: &ast22)
         
-        mars = childNode(withName: "//Mars") as? SKSpriteNode
-        marsBg = childNode(withName: "//Mars Bg 1") as? SKSpriteNode
+        phobos = childNode(withName: "//Phobos") as? SKSpriteNode
+        phobosBg = childNode(withName: "//Phobos Bg 1") as? SKSpriteNode
+       
+//MARK: -       Scene 3
+        
+        bg3 = childNode(withName: "//SP3") as? SKSpriteNode
+        
+        ast23 = childNode(withName: "//Ast23") as? SKSpriteNode
+        addAstPhysics(astVar: &ast23)
+        
+        ast24 = childNode(withName: "//Ast24") as? SKSpriteNode
+        addAstPhysics(astVar: &ast24)
+        
+        ast25 = childNode(withName: "//Ast25") as? SKSpriteNode
+        addAstPhysics(astVar: &ast25)
+        
+        ast26 = childNode(withName: "//Ast26") as? SKSpriteNode
+            addAstPhysics(astVar: &ast26)
+        
+        ast27 = childNode(withName: "//Ast27") as? SKSpriteNode
+            addAstPhysics(astVar: &ast27)
+        
+        ast28 = childNode(withName: "//Ast28") as? SKSpriteNode
+            addAstPhysics(astVar: &ast28)
+        
+        ast29 = childNode(withName: "//Ast29") as? SKSpriteNode
+            addAstPhysics(astVar: &ast29)
+        
+        ast30 = childNode(withName: "//Ast30") as? SKSpriteNode
+            addAstPhysics(astVar: &ast30)
+        
+        ast31 = childNode(withName: "//Ast31") as? SKSpriteNode
+            addAstPhysics(astVar: &ast31)
+       
+        ast32 = childNode(withName: "//Ast32") as? SKSpriteNode
+            addAstPhysics(astVar: &ast32)
+        
+        ast33 = childNode(withName: "//Ast33") as? SKSpriteNode
+            addAstPhysics(astVar: &ast33)
+        
+        ast34 = childNode(withName: "//Ast34") as? SKSpriteNode
+            addAstPhysics(astVar: &ast34)
+       
+        ast35 = childNode(withName: "//Ast35") as? SKSpriteNode
+            addAstPhysics(astVar: &ast35)
+        
+        ast36 = childNode(withName: "//Ast36") as? SKSpriteNode
+            addAstPhysics(astVar: &ast36)
+        
+        earth = childNode(withName: "//Earth") as? SKSpriteNode
+        office = childNode(withName: "//Office") as? SKSpriteNode
+        
+        bd1b = childNode(withName: "//BD1B")
+        ad1b = childNode(withName: "//AD1B")
 
         startInfo = childNode(withName: "//Start")
         endScreen = childNode(withName: "//Game Over")
-        bg = childNode(withName: "//SP1") as? SKSpriteNode
-        bg2 = childNode(withName: "//SP2") as? SKSpriteNode
+        thanksScreen = childNode(withName: "//Story Over")
         
         cam = childNode(withName: "//Camera") as? SKCameraNode
         self.camera = cam
@@ -213,10 +309,18 @@ class GameScene: SKScene {
     }
 
     var lastUpdate: TimeInterval!
+    var backstoryDone: Bool = false
     var scene1HasBeenStarted: Bool = false
+    
     var onPlanet: Bool = false
-    var onMars: Bool = false
-    var doneMarsFlag: Bool = false
+    
+    var onMars        : Bool = false
+    var doneMarsFlag  : Bool = false
+    
+    var onPhobos      : Bool = false
+    var donePhobosFlag: Bool = false
+    
+    var onEarth       : Bool = false
     
     
 override func update(_ currentTime: TimeInterval) {
@@ -233,7 +337,12 @@ override func update(_ currentTime: TimeInterval) {
 //*
     
     if gameOver {
-        endScreen.alpha = 1
+        endScreen.run(SKAction.fadeIn(withDuration: 1))
+        ship.removeFromParent()
+    }
+    
+    if storyOver {
+        thanksScreen.run(SKAction.fadeIn(withDuration: 1))
         ship.removeFromParent()
     }
     
@@ -254,41 +363,41 @@ override func update(_ currentTime: TimeInterval) {
     }
     func shipMove1() {
         moveSprite(node: bg, moveByX: -17901, moveByY: 0, forTheKey: "left", duration: 16)
-        moveSprite(node: ast1, moveByX: -17901, moveByY: 0, forTheKey: "left", duration: 16)
-        moveSprite(node: ast2, moveByX: -17901, moveByY: 0, forTheKey: "left", duration: 16)
-        moveSprite(node: ast3, moveByX: -17901, moveByY: 0, forTheKey: "left", duration: 16)
-        moveSprite(node: ast4, moveByX: -17901, moveByY: 0, forTheKey: "left", duration: 16)
-        moveSprite(node: ast4, moveByX: -17901, moveByY: 0, forTheKey: "left", duration: 16)
-        moveSprite(node: ast5, moveByX: -17901, moveByY: 0, forTheKey: "left", duration: 16)
-        moveSprite(node: ast6, moveByX: -17901, moveByY: 0, forTheKey: "left", duration: 16)
-        moveSprite(node: ast7, moveByX: -17901, moveByY: 0, forTheKey: "left", duration: 16)
-        moveSprite(node: ast8, moveByX: -17901, moveByY: 0, forTheKey: "left", duration: 16)
-        moveSprite(node: mars, moveByX: -17901, moveByY: 0, forTheKey: "left", duration: 16)
         // camera 17901
-               
- }
+    }
     func shipMove2() {
         moveSprite(node: bg2, moveByX: -17901, moveByY: 0, forTheKey: "left", duration: 16)
-        moveSprite(node: ast9, moveByX: -17901, moveByY: 0, forTheKey: "left", duration: 16)
-        moveSprite(node: ast10, moveByX: -17901, moveByY: 0, forTheKey: "left", duration: 16)
-        moveSprite(node: ast11, moveByX: -17901, moveByY: 0, forTheKey: "left", duration: 16)
-        moveSprite(node: ast12, moveByX: -17901, moveByY: 0, forTheKey: "left", duration: 16)
-        moveSprite(node: ast13, moveByX: -17901, moveByY: 0, forTheKey: "left", duration: 16)
-        moveSprite(node: ast14, moveByX: -17901, moveByY: 0, forTheKey: "left", duration: 16)
-        moveSprite(node: ast15, moveByX: -17901, moveByY: 0, forTheKey: "left", duration: 16)
-        moveSprite(node: ast16, moveByX: -17901, moveByY: 0, forTheKey: "left", duration: 16)
-        moveSprite(node: ast17, moveByX: -17901, moveByY: 0, forTheKey: "left", duration: 16)
-        moveSprite(node: ast18, moveByX: -17901, moveByY: 0, forTheKey: "left", duration: 16)
-         moveSprite(node: ast19, moveByX: -17901, moveByY: 0, forTheKey: "left", duration: 16)
-         moveSprite(node: ast20, moveByX: -17901, moveByY: 0, forTheKey: "left", duration: 16)
-         moveSprite(node: ast21, moveByX: -17901, moveByY: 0, forTheKey: "left", duration: 16)
-         moveSprite(node: ast22, moveByX: -17901, moveByY: 0, forTheKey: "left", duration: 16)
-      
+    }
+    func shipMove3() {
+        moveSprite(node: bg3, moveByX: -17901, moveByY: 0, forTheKey: "left", duration: 16)
+    }
+        
+    if !backstoryDone {
+              //        Transition Scene to planet
+        self.backstoryDone = true
+        cam.position = CGPoint(x: 0, y: -31300)
+        
+        astronaut.position = CGPoint(x: -3785.5, y: -32280.8)
+        let walk = SKAction.moveTo(x: -1785.5, duration: 1)
+        let fadeIn = SKAction.fadeIn(withDuration: 1)
+        let fadeOut = SKAction.fadeOut(withDuration: 1)
+        let wait = SKAction.wait(forDuration: 3)
+        let seq = SKAction.sequence([fadeIn, wait, fadeOut])
+        astronaut.run(walk) {
+            self.bd0b.run(seq) {
+                self.ad0b.run(seq) {
+                    self.astronaut.texture = SKTexture(imageNamed: "astronautB")
+                    self.astronaut.run(SKAction.moveTo(x: -3785.5, duration: 1)) {
+                        self.astronaut.texture = SKTexture(imageNamed: "astronautA")
+                        self.cam.position = CGPoint(x: 0, y: 0)
+                    }
+                }
+        }
+        }
     }
     
-    
         // HANDLES KEY PRESSES
-        if spacePressed && !scene1HasBeenStarted {
+    if spacePressed && !scene1HasBeenStarted && backstoryDone && cam.position.y == 0 {
             scene1HasBeenStarted = true
             startInfo.removeFromParent()
             movement1() { //Completion
@@ -296,7 +405,7 @@ override func update(_ currentTime: TimeInterval) {
             }
             
         } else if spacePressed {
-            if !cooldownOn && scene1HasBeenStarted && station1.position.y > 100 {
+            if !cooldownOn && station1.position.y > 100 {
                 shootBeam()
             }
         }
@@ -306,27 +415,35 @@ override func update(_ currentTime: TimeInterval) {
             if ship.position.x < -840.190 && !onPlanet {
                 ship.position.x += 500 * dt
             }
-            else if onPlanet && astronaut.position.x < 12150 {
+            else if onMars && astronaut.position.x < 12150 {
                 astronaut.texture = SKTexture(imageNamed: "astronautA")
                 astronaut.position.x += 1500 * dt
             }
+            else if onPhobos && phobosBg.position.x > -9620 {
+                astronaut.texture = SKTexture(imageNamed: "astronautA")
+                phobosBg.position.x -= 1500 * dt
+                rocket.position.x -= 1500 * dt
+            }
+            
         }
         if leftPressed {
             if ship.position.x > -2075.547 && !onPlanet {
                 ship.position.x -= 500 * dt
             }
-            else if onPlanet && astronaut.position.x > -1785.5 {
+            else if onMars && astronaut.position.x > -1785.5 {
                 astronaut.texture = SKTexture(imageNamed: "astronautB")
                 astronaut.position.x -= 1500 * dt
+            }
+            else if onPhobos && phobosBg.position.x < 0 {
+                astronaut.texture = SKTexture(imageNamed: "astronautB")
+                phobosBg.position.x += 1500 * dt
+                rocket.position.x += 1500 * dt
             }
         }
         if upPressed {
             if ship.position.y <= 2259.9458 && !onPlanet {
                 ship.position.y += 600 * dt
             }
-//            else if onPlanet {
-//                astronaut.position.y += 2500 * dt
-//            }
         }
         if downPressed {
             if ship.position.y >= -2269.2424 && !onPlanet {
@@ -335,11 +452,14 @@ override func update(_ currentTime: TimeInterval) {
         }
     
     if (onPlanet){
-        if astronaut.position.x > -484 && astronaut.position.x < 9500 {
-            cam.position.x = astronaut.position.x + 484
-        } else if astronaut.position.x < 2500 {
-            cam.position.x = 0
+        if onMars {
+            if astronaut.position.x > -484 && astronaut.position.x < 9500 {
+                cam.position.x = astronaut.position.x + 484
+            } else if astronaut.position.x < 2500 {
+                cam.position.x = 0
+            }
         }
+        
         if onMars && !doneMarsFlag {
             if astronaut.position.x >= 8573.737 {
                 doneMarsFlag = true
@@ -348,37 +468,12 @@ override func update(_ currentTime: TimeInterval) {
                 onPlanet = false
                 onMars = false
                 astronaut.run(seq) {
-//MARK:                    REPLACES OLD BG WITH NEW ONE TO MAKE THINGS EASIER
-//                    self.bg.position = CGPoint(x: 0, y: 6000)
-//                    self.mars.position = CGPoint(x: 0, y: 6000)
-//                    self.ast1.position = CGPoint(x: 0, y: 6000)
-//                    self.ast2.position = CGPoint(x: 0, y: 6000)
-//                    self.ast3.position = CGPoint(x: 0, y: 6000)
-//                    self.ast4.position = CGPoint(x: 0, y: 6000)
-//                    self.ast5.position = CGPoint(x: 0, y: 6000)
-//                    self.ast6.position = CGPoint(x: 0, y: 6000)
-//                    self.ast7.position = CGPoint(x: 0, y: 6000)
-//                    self.ast8.position = CGPoint(x: 0, y: 6000)
-//
-                    self.ast8.position.y += 12740.002
-                    self.ast9.position.y += 12740.002
-                    self.ast10.position.y += 12740.002
-                    self.ast11.position.y += 12740.002
-                    self.ast12.position.y += 12740.002
-                    self.ast13.position.y += 12740.002
-                    self.ast14.position.y += 12740.002
-                    self.ast15.position.y += 12740.002
-                    self.ast16.position.y += 12740.002
-                    self.ast17.position.y += 12740.002
-                    self.ast18.position.y += 12740.002
-                    self.ast19.position.y += 12740.002
-                    self.ast20.position.y += 12740.002
-                    self.ast21.position.y += 12740.002
-                    self.ast22.position.y += 12740.002
-
                     
+//MARK:    REPLACES OLD BG WITH NEW ONE TO MAKE THINGS EASIER
                     
+                    self.bg.position = CGPoint(x: 0, y: 6000)
                     self.bg2.position = CGPoint(x: 0, y: 0)
+                    
                     self.ship.position = CGPoint(x: -1920, y: 0)
                     self.cam.position = CGPoint(x: 0, y: 0)
                     
@@ -386,23 +481,33 @@ override func update(_ currentTime: TimeInterval) {
                 }
             }
         }
+        if onPhobos && !donePhobosFlag {
+            if phobosBg.position.x <= -9620 {
+                donePhobosFlag = true
+                let wait = SKAction.wait(forDuration: 1)
+                let seq = SKAction.sequence([wait])
+                onPlanet = false
+                onPhobos = false
+                astronaut.run(seq) {
+//MARK:    REPLACES OLD BG WITH NEW ONE TO MAKE THINGS EASIER
+                    
+                    self.bg2.position = CGPoint(x: 0, y: 6000)
+                    self.bg3.position = CGPoint(x: 0, y: 0)
+                    
+                    self.ship.position = CGPoint(x: -1920, y: 0)
+                    self.cam.position = CGPoint(x: 0, y: 0)
+                    
+                    shipMove3()
+                }
+            }
+        }
     }
         
-    if ship.intersects(mars) {
+    if ship.intersects(mars) && !gameOver {
     //        Transition Scene to planet
-        print("int")
         ship.position.x = -10000
         
         bg.removeFromParent()
-        mars.removeFromParent()
-        ast1.removeFromParent()
-        ast2.removeFromParent()
-        ast3.removeFromParent()
-        ast4.removeFromParent()
-        ast5.removeFromParent()
-        ast6.removeFromParent()
-        ast7.removeFromParent()
-        ast8.removeFromParent()
         
         onPlanet = true
         astronaut.alpha = 0
@@ -410,6 +515,7 @@ override func update(_ currentTime: TimeInterval) {
         cam.position = CGPoint(x: 0, y: -6460)
         let land = SKAction.moveTo(y: -7384, duration: 2)
         rocket.run(land) {
+            
             self.astronaut.position = CGPoint(x: -1785.5, y: -7870.72)
             self.astronaut.alpha = 1
             let walkOut = SKAction.moveBy(x: 1300, y: 0, duration: 1)
@@ -417,32 +523,91 @@ override func update(_ currentTime: TimeInterval) {
             let seq = SKAction.sequence([wait, walkOut])
             self.astronaut.run(seq)
             
-//            self.physicsWorld.gravity = CGVector(dx: 0, dy: -3.72)
-//            self.astronaut.physicsBody?.affectedByGravity = true
             self.onMars = true
 
         }
     }
+    
+    if ship.intersects(phobos) && !gameOver {
+      //        Transition Scene to planet
+        ship.position.x = -10000
+        
+        bg2.removeFromParent()
+               
+        onPlanet = true
+        astronaut.alpha = 0
+        rocket.position = CGPoint(x: -1722, y: -14100)
+        cam.position = CGPoint(x: 0, y: -19140)
+        let land = SKAction.moveTo(y: -20200, duration: 2)
+        rocket.run(land) {
+            
+            self.astronaut.position = CGPoint(x: -1785.5, y: -20740)
+            self.astronaut.alpha = 1
+            let walkOut = SKAction.moveBy(x: 1300, y: 0, duration: 1)
+            let wait = SKAction.wait(forDuration: 0.5)
+            let seq = SKAction.sequence([wait, walkOut])
+            self.astronaut.run(seq)
+            
+            self.onPhobos = true
+
+        }
+    }
+    if ship.intersects(earth) && !gameOver {
+      //        Transition Scene to planet
+        ship.position.x = -10000
+        
+        bg3.removeFromParent()
+               
+        onPlanet = true
+        cam.position = CGPoint(x: 0, y: -31300)
+        
+        astronaut.position = CGPoint(x: -3785.5, y: -32280.8)
+        let walk = SKAction.moveTo(x: -1785.5, duration: 1)
+        let fadeIn = SKAction.fadeIn(withDuration: 1)
+        let fadeOut = SKAction.fadeOut(withDuration: 1)
+        let wait = SKAction.wait(forDuration: 5)
+        let seq = SKAction.sequence([fadeIn, wait, fadeOut])
+        astronaut.run(walk) {
+            self.onEarth = true
+            self.bd1b.run(seq) {
+                self.ad1b.run(seq) {
+//                   Fade game out and show end screen
+                    self.storyOver = true
+                }
+        }
+        
+    }
+            
+
+    }
 }
     
     func shootBeam() {
-        let beam = SKSpriteNode(imageNamed: "Laser")
-        beam.position = ship.position
-        beam.position.x += ship.size.width/2
-        beam.size.height *= 2
-        // Handles collissions between beam and asteroids
-        beam.physicsBody = SKPhysicsBody(rectangleOf: beam.size)
-        beam.physicsBody?.isDynamic = true
-        beam.physicsBody?.categoryBitMask = PhysicsCategory.projectile
-        beam.physicsBody?.contactTestBitMask = PhysicsCategory.obstacle
-        beam.physicsBody?.collisionBitMask = PhysicsCategory.none
-        beam.physicsBody?.usesPreciseCollisionDetection = true
+        if !gameOver {
+            let beam = SKSpriteNode(imageNamed: "Laser")
+            beam.position = ship.position
+            beam.position.x += ship.size.width/2
+            beam.size.height *= 2
+            // Handles collissions between beam and asteroids
+            beam.physicsBody = SKPhysicsBody(rectangleOf: beam.size)
+            beam.physicsBody?.isDynamic = true
+            beam.physicsBody?.categoryBitMask = PhysicsCategory.projectile
+            beam.physicsBody?.contactTestBitMask = PhysicsCategory.obstacle
+            beam.physicsBody?.collisionBitMask = PhysicsCategory.none
+            beam.physicsBody?.usesPreciseCollisionDetection = true
         
                 
-        self.addChild(beam)
-        let action = SKAction.moveTo(x: self.size.width, duration: 2)
-        beam.run(SKAction.repeatForever(action))
-        cooldownOn = true
+            self.addChild(beam)
+            let action = SKAction.moveTo(x: self.size.width, duration: 2)
+            beam.run(SKAction.repeatForever(action))
+            
+//MARK: ATTEMPT TO DELETE BEAMS AFTER A BIT
+//            let repAction = SKAction.repeat(action, count: 1)
+//            beam.run(repAction) {
+//                beam.removeFromParent()
+//            }
+            cooldownOn = true
+        }
     }
     
     func addAstPhysics(astVar: inout SKSpriteNode!) {
@@ -480,7 +645,7 @@ override func update(_ currentTime: TimeInterval) {
     
     func shipDidCollideWithAst(ship: SKSpriteNode, ast: SKSpriteNode) {
         print("Collision!")
-        ship.removeFromParent()
+        ship.alpha = 0
         gameOver = true
     }
     
