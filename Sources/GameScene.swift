@@ -1,5 +1,6 @@
 import PlaygroundSupport
 import SpriteKit
+import AVFoundation
 
 struct PhysicsCategory {
     static let none      : UInt32 = 0
@@ -11,6 +12,9 @@ struct PhysicsCategory {
 }
 
 class GameScene: SKScene {
+    
+    var soundtrackPlayer = AVAudioPlayer()
+    var shipAstCollSFX = AVAudioPlayer()
     
     var bd0b: SKNode!
     var ad0b: SKNode!
@@ -93,6 +97,28 @@ class GameScene: SKScene {
     var beamCooldown:  Timer?
     
     override func didMove(to view: SKView) {
+        
+        //        DEFINES AUDIO PLAYERS
+        let soundtrack = Bundle.main.path(forResource: "greendale", ofType: "mp3")
+        do {
+            soundtrackPlayer = try AVAudioPlayer(contentsOf: URL(fileURLWithPath: soundtrack!))
+        } catch {
+            print(error)
+        }
+        //        -1 loops forever
+        soundtrackPlayer.numberOfLoops = -1
+        soundtrackPlayer.volume = 0.6
+        soundtrackPlayer.prepareToPlay()
+        
+        let collSfx = Bundle.main.path(forResource: "Gameoversfx", ofType: "wav")
+        do {
+            shipAstCollSFX = try AVAudioPlayer(contentsOf: URL(fileURLWithPath: collSfx!))
+        } catch {
+            print(error)
+        }
+        shipAstCollSFX.prepareToPlay()
+
+        
         physicsWorld.gravity = .zero
         physicsWorld.contactDelegate = self
        
@@ -320,8 +346,6 @@ class GameScene: SKScene {
     var onPhobos      : Bool = false
     var donePhobosFlag: Bool = false
     
-    var onEarth       : Bool = false
-    
     
 override func update(_ currentTime: TimeInterval) {
 //*        Smooths things out
@@ -373,23 +397,29 @@ override func update(_ currentTime: TimeInterval) {
     }
         
     if !backstoryDone {
-              //        Transition Scene to planet
+//        Transition Scene to planet
         self.backstoryDone = true
+        onPlanet = true
         cam.position = CGPoint(x: 0, y: -31300)
         
         astronaut.position = CGPoint(x: -3785.5, y: -32280.8)
         let walk = SKAction.moveTo(x: -1785.5, duration: 1)
+        let wait = SKAction.wait(forDuration: 1)
+        
         let fadeIn = SKAction.fadeIn(withDuration: 1)
         let fadeOut = SKAction.fadeOut(withDuration: 1)
-        let wait = SKAction.wait(forDuration: 3)
-        let seq = SKAction.sequence([fadeIn, wait, fadeOut])
-        astronaut.run(walk) {
-            self.bd0b.run(seq) {
-                self.ad0b.run(seq) {
+        let wait2 = SKAction.wait(forDuration: 4)
+        
+        let seq1 = SKAction.sequence([wait, walk, wait])
+        let seq2 = SKAction.sequence([fadeIn, wait2, fadeOut])
+        astronaut.run(seq1) {
+            self.bd0b.run(seq2) {
+                self.ad0b.run(seq2) {
                     self.astronaut.texture = SKTexture(imageNamed: "astronautB")
                     self.astronaut.run(SKAction.moveTo(x: -3785.5, duration: 1)) {
                         self.astronaut.texture = SKTexture(imageNamed: "astronautA")
                         self.cam.position = CGPoint(x: 0, y: 0)
+                        self.onPlanet = false
                     }
                 }
         }
@@ -568,7 +598,6 @@ override func update(_ currentTime: TimeInterval) {
         let wait = SKAction.wait(forDuration: 5)
         let seq = SKAction.sequence([fadeIn, wait, fadeOut])
         astronaut.run(walk) {
-            self.onEarth = true
             self.bd1b.run(seq) {
                 self.ad1b.run(seq) {
 //                   Fade game out and show end screen
