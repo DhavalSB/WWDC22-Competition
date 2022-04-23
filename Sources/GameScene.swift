@@ -12,12 +12,21 @@ struct PhysicsCategory {
 }
 
 class GameScene: SKScene {
+    var officeSceneSfx    = AVAudioPlayer()
     
-    var soundtrackPlayer = AVAudioPlayer()
-    var shipAstCollSFX = AVAudioPlayer()
+    var soundtrackPlayer  = AVAudioPlayer()
+    var beamShootPlayer   = AVAudioPlayer()
+    var shipAstCollPlayer = AVAudioPlayer()
+ 
+    var reachedPlanet     = AVAudioPlayer()
+    var rewardPlayer      = AVAudioPlayer()
     
     var bd0b: SKNode!
     var ad0b: SKNode!
+    
+//    phobos text background & mars text background
+    var ptb: SKNode!
+    var mtb: SKNode!
     
     var gameOver: Bool = false
     var storyOver: Bool = false
@@ -99,7 +108,17 @@ class GameScene: SKScene {
     override func didMove(to view: SKView) {
         
         //        DEFINES AUDIO PLAYERS
-        let soundtrack = Bundle.main.path(forResource: "greendale", ofType: "mp3")
+        
+        let officeSfx = Bundle.main.path(forResource: "Office", ofType: "mp3")
+        do {
+            officeSceneSfx = try AVAudioPlayer(contentsOf: URL(fileURLWithPath: officeSfx!))
+        } catch {
+            print(error)
+        }
+        officeSceneSfx.prepareToPlay()
+       
+        
+        let soundtrack = Bundle.main.path(forResource: "soundtrack", ofType: "mp3")
         do {
             soundtrackPlayer = try AVAudioPlayer(contentsOf: URL(fileURLWithPath: soundtrack!))
         } catch {
@@ -110,14 +129,37 @@ class GameScene: SKScene {
         soundtrackPlayer.volume = 0.6
         soundtrackPlayer.prepareToPlay()
         
-        let collSfx = Bundle.main.path(forResource: "Gameoversfx", ofType: "wav")
+        let collSfx = Bundle.main.path(forResource: "forceField_003", ofType: "mp3")
         do {
-            shipAstCollSFX = try AVAudioPlayer(contentsOf: URL(fileURLWithPath: collSfx!))
+            shipAstCollPlayer = try AVAudioPlayer(contentsOf: URL(fileURLWithPath: collSfx!))
         } catch {
             print(error)
         }
-        shipAstCollSFX.prepareToPlay()
+        shipAstCollPlayer.prepareToPlay()
+        
+        let shootSfx = Bundle.main.path(forResource: "laserSmall_000", ofType: "mp3")
+        do {
+            beamShootPlayer = try AVAudioPlayer(contentsOf: URL(fileURLWithPath: shootSfx!))
+        } catch {
+            print(error)
+        }
+        beamShootPlayer.prepareToPlay()
+        
+        let bonus = Bundle.main.path(forResource: "extraBonus", ofType: "wav")
+        do {
+            rewardPlayer = try AVAudioPlayer(contentsOf: URL(fileURLWithPath: bonus!))
+        } catch {
+            print(error)
+        }
+        rewardPlayer.prepareToPlay()
 
+        let planetEnterSfx = Bundle.main.path(forResource: "enterPlanet", ofType: "wav")
+        do {
+            reachedPlanet = try AVAudioPlayer(contentsOf: URL(fileURLWithPath: planetEnterSfx!))
+        } catch {
+            print(error)
+        }
+        reachedPlanet.prepareToPlay()
         
         physicsWorld.gravity = .zero
         physicsWorld.contactDelegate = self
@@ -167,6 +209,8 @@ class GameScene: SKScene {
         
         mars = childNode(withName: "//Mars") as? SKSpriteNode
         marsBg = childNode(withName: "//Mars Bg 1") as? SKSpriteNode
+        
+        mtb = childNode(withName: "//MTB")
        
         astronaut = childNode(withName: "//Astronaut") as? SKSpriteNode
         astronaut.physicsBody = SKPhysicsBody(rectangleOf: astronaut.size)
@@ -224,6 +268,8 @@ class GameScene: SKScene {
         
         phobos = childNode(withName: "//Phobos") as? SKSpriteNode
         phobosBg = childNode(withName: "//Phobos Bg 1") as? SKSpriteNode
+        
+        ptb = childNode(withName: "//PTB")
        
 //MARK: -       Scene 3
         
@@ -363,6 +409,7 @@ override func update(_ currentTime: TimeInterval) {
     if gameOver {
         endScreen.run(SKAction.fadeIn(withDuration: 1))
         ship.removeFromParent()
+        soundtrackPlayer.stop()
     }
     
     if storyOver {
@@ -399,6 +446,7 @@ override func update(_ currentTime: TimeInterval) {
     if !backstoryDone {
 //        Transition Scene to planet
         self.backstoryDone = true
+        self.officeSceneSfx.play()
         onPlanet = true
         cam.position = CGPoint(x: 0, y: -31300)
         
@@ -420,6 +468,7 @@ override func update(_ currentTime: TimeInterval) {
                         self.astronaut.texture = SKTexture(imageNamed: "astronautA")
                         self.cam.position = CGPoint(x: 0, y: 0)
                         self.onPlanet = false
+                        self.officeSceneSfx.setVolume(0, fadeDuration: 2)
                     }
                 }
         }
@@ -428,14 +477,15 @@ override func update(_ currentTime: TimeInterval) {
     
         // HANDLES KEY PRESSES
     if spacePressed && !scene1HasBeenStarted && backstoryDone && cam.position.y == 0 {
-            scene1HasBeenStarted = true
-            startInfo.removeFromParent()
-            movement1() { //Completion
-                shipMove1()
-            }
+        scene1HasBeenStarted = true
+        soundtrackPlayer.play()
+        startInfo.removeFromParent()
+        movement1() { //Completion
+            shipMove1()
+        }
             
         } else if spacePressed {
-            if !cooldownOn && station1.position.y > 100 {
+            if !cooldownOn && station1.position.y > 100 && !onPlanet {
                 shootBeam()
             }
         }
@@ -493,7 +543,7 @@ override func update(_ currentTime: TimeInterval) {
         if onMars && !doneMarsFlag {
             if astronaut.position.x >= 8573.737 {
                 doneMarsFlag = true
-                let wait = SKAction.wait(forDuration: 1)
+                let wait = SKAction.wait(forDuration: 2)
                 let seq = SKAction.sequence([wait])
                 onPlanet = false
                 onMars = false
@@ -509,16 +559,18 @@ override func update(_ currentTime: TimeInterval) {
                     
                     shipMove2()
                 }
+                self.mtb.run(SKAction.fadeIn(withDuration: 0.5))
             }
         }
         if onPhobos && !donePhobosFlag {
-            if phobosBg.position.x <= -9620 {
+            if phobosBg.position.x <= -9400 {
                 donePhobosFlag = true
-                let wait = SKAction.wait(forDuration: 1)
+                let wait = SKAction.wait(forDuration: 3)
                 let seq = SKAction.sequence([wait])
                 onPlanet = false
                 onPhobos = false
                 astronaut.run(seq) {
+                    
 //MARK:    REPLACES OLD BG WITH NEW ONE TO MAKE THINGS EASIER
                     
                     self.bg2.position = CGPoint(x: 0, y: 6000)
@@ -529,12 +581,14 @@ override func update(_ currentTime: TimeInterval) {
                     
                     shipMove3()
                 }
+                self.ptb.run(SKAction.fadeIn(withDuration: 0.5))
             }
         }
     }
         
     if ship.intersects(mars) && !gameOver {
     //        Transition Scene to planet
+        reachedPlanet.play()
         ship.position.x = -10000
         
         bg.removeFromParent()
@@ -560,6 +614,7 @@ override func update(_ currentTime: TimeInterval) {
     
     if ship.intersects(phobos) && !gameOver {
       //        Transition Scene to planet
+        reachedPlanet.play()
         ship.position.x = -10000
         
         bg2.removeFromParent()
@@ -584,6 +639,7 @@ override func update(_ currentTime: TimeInterval) {
     }
     if ship.intersects(earth) && !gameOver {
       //        Transition Scene to planet
+        reachedPlanet.play()
         ship.position.x = -10000
         
         bg3.removeFromParent()
@@ -604,10 +660,8 @@ override func update(_ currentTime: TimeInterval) {
                     self.storyOver = true
                 }
         }
-        
+        self.rewardPlayer.play()
     }
-            
-
     }
 }
     
@@ -628,13 +682,9 @@ override func update(_ currentTime: TimeInterval) {
                 
             self.addChild(beam)
             let action = SKAction.moveTo(x: self.size.width, duration: 2)
+            beamShootPlayer.play()
             beam.run(SKAction.repeatForever(action))
             
-//MARK: ATTEMPT TO DELETE BEAMS AFTER A BIT
-//            let repAction = SKAction.repeat(action, count: 1)
-//            beam.run(repAction) {
-//                beam.removeFromParent()
-//            }
             cooldownOn = true
         }
     }
@@ -666,15 +716,15 @@ override func update(_ currentTime: TimeInterval) {
     }
     
     func projectileDidCollideWithAst(projectile: SKSpriteNode, ast: SKSpriteNode) {
-            print("Hit")
-            projectile.removeFromParent()
-            ast.removeFromParent()
+        projectile.removeFromParent()
+        ast.removeFromParent()
     }
     
     
     func shipDidCollideWithAst(ship: SKSpriteNode, ast: SKSpriteNode) {
         print("Collision!")
         ship.alpha = 0
+        shipAstCollPlayer.play()
         gameOver = true
     }
     

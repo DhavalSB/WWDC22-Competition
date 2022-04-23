@@ -1,18 +1,19 @@
 /*:
- # Goals:
- ### • Create a game in which player flies through space to explore different planets.
- ### • User can control spaceship to shoot asteroids and choose planet to land on.
- ###   - Game is scroller and ship moves up and down
- ### • Game ends if ship hits asteroid
- ### • On planet, user will discover interesting facts
- ###   - Maybe implement way to allow user to control astronaut on planets.
- ###        - add different gravity for each planet.
+ # WWDC 2022 Playground
  
+ ## In this game, you will explore space
+ ### Instructions:
+ 1. Use arrow keys to move; avoid asteroids floating in space
+ 2. Use space bar to shoot asteroids with space ship
+ 3. Have fun!
+ 
+ ----
+ Credits:
+ - Kenney.nl — Provided astronaut, laser beam, ship images
+ - Freevector.com — Provided poster images in office
+ - Mixkit.com — Provided all audio used in the project
  */
-//MARK: - Only have two planets (otherwise will be dull and repetitive); at end, return to earth and have astronaut give stones to boss
-//MARK: add dialogue before start, finding gems, returning to earth
 
-//Creds to kenney.nl, freevector.com
 
 loadPrgm(true)
 start
